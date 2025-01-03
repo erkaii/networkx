@@ -4,7 +4,6 @@ Flows
 
 .. automodule:: networkx.algorithms.flow
 
-.. _networkx.algorithms.flow.maxflow:
 
 Maximum Flow
 ------------
@@ -16,7 +15,6 @@ Maximum Flow
    minimum_cut
    minimum_cut_value
 
-.. _networkx.algorithms.flow.edmondskarp:
 
 Edmonds-Karp
 ------------
@@ -25,7 +23,6 @@ Edmonds-Karp
 
    edmonds_karp
 
-.. _networkx.algorithms.flow.shortestaugmentingpath:
 
 Shortest Augmenting Path
 ------------------------
@@ -34,7 +31,6 @@ Shortest Augmenting Path
 
    shortest_augmenting_path
 
-.. _networkx.algorithms.flow.preflowpush:
 
 Preflow-Push
 ------------
@@ -43,7 +39,6 @@ Preflow-Push
 
    preflow_push
 
-.. _networkx.algorithms.flow.dinitz_alg:
 
 Dinitz
 ------
@@ -52,7 +47,6 @@ Dinitz
 
    dinitz
 
-.. _networkx.algorithms.flow.boykovkolmogorov:
 
 Boykov-Kolmogorov
 -----------------
@@ -61,7 +55,6 @@ Boykov-Kolmogorov
 
    boykov_kolmogorov
 
-.. _networkx.algorithms.flow.gomory_hu:
 
 Gomory-Hu Tree
 --------------
@@ -70,7 +63,6 @@ Gomory-Hu Tree
 
    gomory_hu_tree
 
-.. _networkx.algorithms.flow.utils:
 
 Utils
 -----
@@ -79,8 +71,6 @@ Utils
 
    build_residual_network
 
-.. _networkx.algorithms.flow.mincost:
-.. _networkx.algorithms.flow.networksimplex:
 
 Network Simplex
 ---------------
@@ -93,7 +83,6 @@ Network Simplex
     cost_of_flow
     max_flow_min_cost
 
-.. _networkx.algorithms.flow.capacityscaling:
 
 Capacity Scaling Minimum Cost Flow
 ----------------------------------

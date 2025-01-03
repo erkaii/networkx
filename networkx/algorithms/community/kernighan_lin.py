@@ -42,21 +42,20 @@ def _kernighan_lin_sweep(edges, side):
 
 @not_implemented_for("directed")
 @py_random_state(4)
-@nx._dispatchable(edge_attrs="weight")
+@nx._dispatch(edge_attrs="weight")
 def kernighan_lin_bisection(G, partition=None, max_iter=10, weight="weight", seed=None):
     """Partition a graph into two blocks using the Kernighan–Lin
     algorithm.
 
     This algorithm partitions a network into two sets by iteratively
     swapping pairs of nodes to reduce the edge cut between the two sets.  The
-    pairs are chosen according to a modified form of Kernighan-Lin [1]_, which
+    pairs are chosen according to a modified form of Kernighan-Lin, which
     moves node individually, alternating between sides to keep the bisection
     balanced.
 
     Parameters
     ----------
-    G : NetworkX graph
-        Graph must be undirected.
+    G : graph
 
     partition : tuple
         Pair of iterables containing an initial partition. If not

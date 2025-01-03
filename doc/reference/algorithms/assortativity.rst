@@ -6,8 +6,6 @@ Assortativity
 .. autosummary::
    :toctree: generated/
 
-.. _networkx.algorithms.assortativity.correlation:
-
 Assortativity
 -------------
 .. autosummary::
@@ -18,8 +16,6 @@ Assortativity
    numeric_assortativity_coefficient
    degree_pearson_correlation_coefficient
 
-.. _networkx.algorithms.assortativity.neighbor_degree:
-
 Average neighbor degree
 -----------------------
 .. autosummary::
@@ -27,7 +23,6 @@ Average neighbor degree
 
    average_neighbor_degree
 
-.. _networkx.algorithms.assortativity.connectivity:
 
 Average degree connectivity
 ---------------------------
@@ -36,7 +31,6 @@ Average degree connectivity
 
    average_degree_connectivity
 
-.. _networkx.algorithms.assortativity.mixing:
 
 Mixing
 ------
@@ -48,8 +42,6 @@ Mixing
    attribute_mixing_dict
    degree_mixing_dict
    mixing_dict
-
-.. _networkx.algorithms.assortativity.pairs:
 
 Pairs
 -----

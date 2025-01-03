@@ -83,7 +83,6 @@ def tree_data(G, root, ident="id", children="children"):
     return {**G.nodes[root], ident: root, children: add_children(root, G)}
 
 
-@nx._dispatchable(graphs=None, returns_graph=True)
 def tree_graph(data, ident="id", children="children"):
     """Returns graph from tree data format.
 

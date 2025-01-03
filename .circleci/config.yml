@@ -4,7 +4,7 @@ version: 2.1
 jobs:
   documentation:
     docker:
-      - image: cimg/python:3.12
+      - image: cimg/python:3.10
 
     steps:
       - checkout
@@ -12,17 +12,17 @@ jobs:
       - run:
           name: Update apt-get
           command: |
-            sudo apt update
+            sudo apt-get update
 
       - run:
           name: Install Graphviz
           command: |
-            sudo apt install graphviz libgraphviz-dev
+            sudo apt-get install graphviz libgraphviz-dev
 
       - run:
           name: Install pysal dependencies
           command: |
-            sudo apt install libspatialindex-dev
+            sudo apt-get install libspatialindex-dev
 
       - restore_cache:
           keys:
@@ -34,14 +34,10 @@ jobs:
             python3 -m venv venv
             source venv/bin/activate
             pip install --upgrade pip
-            # Install trusted backends, but not their dependencies.
-            # We only need to use the "networkx.backend_info" entry-point.
-            # This is the nightly wheel for nx-cugraph.
-            pip install nx-cugraph-cu11 --extra-index-url https://pypi.anaconda.org/rapidsai-wheels-nightly/simple --no-deps --pre
-            # Development version of GraphBLAS backend
-            pip install git+https://github.com/python-graphblas/graphblas-algorithms.git@main --no-deps
-            # Development version of nx-parallel backend
-            pip install git+https://github.com/networkx/nx-parallel.git@main --no-deps
+            pip install -r requirements/default.txt -r requirements/test.txt
+            pip install -r requirements/extra.txt
+            pip install -r requirements/example.txt
+            pip install -r requirements/doc.txt
             pip list
 
       - save_cache:
@@ -53,7 +49,7 @@ jobs:
           name: Install
           command: |
             source venv/bin/activate
-            pip install -e '.[default,test,extra,example,doc]'
+            pip install -e .
 
       - run:
           name: Build docs
@@ -68,7 +64,7 @@ jobs:
 
   image:
     docker:
-      - image: cimg/python:3.12
+      - image: cimg/python:3.10
 
     steps:
       - checkout
@@ -79,6 +75,7 @@ jobs:
             python -m venv venv
             source venv/bin/activate
             pip install --upgrade pip
+            pip install -r requirements/default.txt -r requirements/test.txt
             pip install pytest-mpl  # NOTE: specified here to avoid confusing conda
             pip list
 
@@ -86,7 +83,7 @@ jobs:
           name: Install
           command: |
             source venv/bin/activate
-            pip install -e .[default,test]
+            pip install -e .
 
       - run:
           name: Test NetworkX drawing

@@ -22,6 +22,4 @@ Reference
    randomness
    exceptions
    utils
-   backends
-   configs
    glossary

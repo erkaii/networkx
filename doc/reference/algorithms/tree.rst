@@ -30,6 +30,7 @@ Branchings and Spanning Arborescences
    maximum_spanning_arborescence
    minimum_spanning_arborescence
    ArborescenceIterator
+   Edmonds
 
 Encoding and decoding
 ---------------------
@@ -48,7 +49,7 @@ Operations
 .. autosummary::
    :toctree: generated/
 
-   join_trees
+   join
 
 Spanning Trees
 --------------
@@ -62,7 +63,6 @@ Spanning Trees
    minimum_spanning_edges
    maximum_spanning_edges
    SpanningTreeIterator
-   number_of_spanning_trees
 
 Decomposition
 -------------

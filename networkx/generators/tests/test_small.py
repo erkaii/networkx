@@ -34,9 +34,6 @@ class TestGeneratorsSmall:
         utility_graph = nx.complete_bipartite_graph(3, 3)
         assert is_isomorphic(G, utility_graph)
 
-        with pytest.raises(nx.NetworkXError, match="Directed Graph not supported"):
-            G = nx.LCF_graph(6, [3, -3], 3, create_using=nx.DiGraph)
-
     def test_properties_named_small_graphs(self):
         G = nx.bull_graph()
         assert sorted(G) == list(range(5))
@@ -206,6 +203,3 @@ class TestGeneratorsSmall:
 def tests_raises_with_directed_create_using(fn, create_using):
     with pytest.raises(nx.NetworkXError, match="Directed Graph not supported"):
         fn(create_using=create_using)
-    # All these functions have `create_using` as the first positional argument too
-    with pytest.raises(nx.NetworkXError, match="Directed Graph not supported"):
-        fn(create_using)

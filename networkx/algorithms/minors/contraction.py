@@ -1,5 +1,4 @@
 """Provides functions for computing minors of a graph."""
-
 from itertools import chain, combinations, permutations, product
 
 import networkx as nx
@@ -69,9 +68,8 @@ def equivalence_classes(iterable, relation):
     `X` and a function implementation of `R`.
 
     >>> X = set(range(10))
-    >>> def mod3(x, y):
-    ...     return (x - y) % 3 == 0
-    >>> equivalence_classes(X, mod3)  # doctest: +SKIP
+    >>> def mod3(x, y): return (x - y) % 3 == 0
+    >>> equivalence_classes(X, mod3)    # doctest: +SKIP
     {frozenset({1, 4, 7}), frozenset({8, 2, 5}), frozenset({0, 9, 3, 6})}
     """
     # For simplicity of implementation, we initialize the return value as a
@@ -96,7 +94,7 @@ def equivalence_classes(iterable, relation):
     return {frozenset(block) for block in blocks}
 
 
-@nx._dispatchable(edge_attrs="weight", returns_graph=True)
+@nx._dispatch(edge_attrs="weight")
 def quotient_graph(
     G,
     partition,
@@ -204,7 +202,9 @@ def quotient_graph(
     are equivalent if they are not adjacent but have the same neighbor set.
 
     >>> G = nx.complete_bipartite_graph(2, 3)
-    >>> same_neighbors = lambda u, v: (u not in G[v] and v not in G[u] and G[u] == G[v])
+    >>> same_neighbors = lambda u, v: (
+    ...     u not in G[v] and v not in G[u] and G[u] == G[v]
+    ... )
     >>> Q = nx.quotient_graph(G, same_neighbors)
     >>> K2 = nx.complete_graph(2)
     >>> nx.is_isomorphic(Q, K2)
@@ -425,9 +425,7 @@ def _quotient_graph(
     return H
 
 
-@nx._dispatchable(
-    preserve_all_attrs=True, mutates_input={"not copy": 4}, returns_graph=True
-)
+@nx._dispatch(preserve_all_attrs=True)
 def contracted_nodes(G, u, v, self_loops=True, copy=True):
     """Returns the graph that results from contracting `u` and `v`.
 
@@ -499,18 +497,6 @@ def contracted_nodes(G, u, v, self_loops=True, copy=True):
     >>> list(H.edges())
     [(1, 1)]
 
-    In a ``MultiDiGraph`` with a self loop, the in and out edges will
-    be treated separately as edges, so while contracting a node which
-    has a self loop the contraction will add multiple edges:
-
-    >>> G = nx.MultiDiGraph([(1, 2), (2, 2)])
-    >>> H = nx.contracted_nodes(G, 1, 2)
-    >>> list(H.edges())  # edge 1->2, 2->2, 2<-2 from the original Graph G
-    [(1, 1), (1, 1), (1, 1)]
-    >>> H = nx.contracted_nodes(G, 1, 2, self_loops=False)
-    >>> list(H.edges())  # edge 2->2, 2<-2 from the original Graph G
-    [(1, 1), (1, 1)]
-
     See Also
     --------
     contracted_edge
@@ -562,9 +548,7 @@ def contracted_nodes(G, u, v, self_loops=True, copy=True):
 identified_nodes = contracted_nodes
 
 
-@nx._dispatchable(
-    preserve_edge_attrs=True, mutates_input={"not copy": 3}, returns_graph=True
-)
+@nx._dispatch(preserve_edge_attrs=True)
 def contracted_edge(G, edge, self_loops=True, copy=True):
     """Returns the graph that results from contracting the specified edge.
 

@@ -4,11 +4,8 @@ import gzip
 import inspect
 import itertools
 import re
-import warnings
 from collections import defaultdict
 from contextlib import contextmanager
-from functools import wraps
-from inspect import Parameter, signature
 from os.path import splitext
 from pathlib import Path
 
@@ -56,12 +53,10 @@ def not_implemented_for(*graph_types):
        def sp_function(G):
            pass
 
-
        # rule out MultiDiGraph
-       @not_implemented_for("directed", "multigraph")
+       @not_implemented_for("directed","multigraph")
        def sp_np_function(G):
            pass
-
 
        # rule out all except DiGraph
        @not_implemented_for("undirected")
@@ -125,25 +120,21 @@ def open_file(path_arg, mode="r"):
     --------
     Decorate functions like this::
 
-       @open_file(0, "r")
+       @open_file(0,"r")
        def read_function(pathname):
            pass
 
-
-       @open_file(1, "w")
+       @open_file(1,"w")
        def write_function(G, pathname):
            pass
 
-
-       @open_file(1, "w")
+       @open_file(1,"w")
        def write_function(G, pathname="graph.dot"):
            pass
 
-
-       @open_file("pathname", "w")
+       @open_file("pathname","w")
        def write_function(G, pathname="graph.dot"):
            pass
-
 
        @open_file("path", "w+")
        def another_function(arg, **kwargs):
@@ -160,19 +151,19 @@ def open_file(path_arg, mode="r"):
 
       @open_file("path")
       def some_function(arg1, arg2, path=None):
-          if path is None:
-              fobj = tempfile.NamedTemporaryFile(delete=False)
-          else:
-              # `path` could have been a string or file object or something
-              # similar. In any event, the decorator has given us a file object
-              # and it will close it for us, if it should.
-              fobj = path
+         if path is None:
+             fobj = tempfile.NamedTemporaryFile(delete=False)
+         else:
+             # `path` could have been a string or file object or something
+             # similar. In any event, the decorator has given us a file object
+             # and it will close it for us, if it should.
+             fobj = path
 
-          try:
-              fobj.write("blah")
-          finally:
-              if path is None:
-                  fobj.close()
+         try:
+             fobj.write("blah")
+         finally:
+             if path is None:
+                 fobj.close()
 
     Normally, we'd want to use "with" to ensure that fobj gets closed.
     However, the decorator will make `path` a file object for us,
@@ -266,15 +257,14 @@ def nodes_or_number(which_args):
 
 
 def np_random_state(random_state_argument):
-    """Decorator to generate a numpy RandomState or Generator instance.
+    """Decorator to generate a `numpy.random.RandomState` instance.
 
     The decorator processes the argument indicated by `random_state_argument`
     using :func:`nx.utils.create_random_state`.
     The argument value can be a seed (integer), or a `numpy.random.RandomState`
-    or `numpy.random.RandomState` instance or (`None` or `numpy.random`).
-    The latter two options use the global random number generator for `numpy.random`.
-
-    The returned instance is a `numpy.random.RandomState` or `numpy.random.Generator`.
+    instance or (`None` or `numpy.random`). The latter options use the glocal
+    random number generator used by `numpy.random`.
+    The result is a `numpy.random.RandomState` instance.
 
     Parameters
     ----------
@@ -295,11 +285,9 @@ def np_random_state(random_state_argument):
        def random_float(seed=None):
            return seed.rand()
 
-
        @np_random_state(0)
        def random_float(rng=None):
            return rng.rand()
-
 
        @np_random_state(1)
        def random_array(dims, random_state=1):
@@ -315,24 +303,19 @@ def np_random_state(random_state_argument):
 def py_random_state(random_state_argument):
     """Decorator to generate a random.Random instance (or equiv).
 
-    This decorator processes `random_state_argument` using
-    :func:`nx.utils.create_py_random_state`.
-    The input value can be a seed (integer), or a random number generator::
+    The decorator processes the argument indicated by `random_state_argument`
+    using :func:`nx.utils.create_py_random_state`.
+    The argument value can be a seed (integer), or a random number generator::
 
         If int, return a random.Random instance set with seed=int.
         If random.Random instance, return it.
         If None or the `random` package, return the global random number
         generator used by `random`.
-        If np.random package, or the default numpy RandomState instance,
-        return the default numpy random number generator wrapped in a
-        `PythonRandomViaNumpyBits`  class.
-        If np.random.Generator instance, return it wrapped in a
-        `PythonRandomViaNumpyBits`  class.
-
-        # Legacy options
-        If np.random.RandomState instance, return it wrapped in a
-        `PythonRandomInterface` class.
-        If a `PythonRandomInterface` instance, return it
+        If np.random package, return the global numpy random number
+        generator wrapped in a PythonRandomInterface class.
+        If np.random.RandomState instance, return it wrapped in
+        PythonRandomInterface
+        If a PythonRandomInterface instance, return it
 
     Parameters
     ----------
@@ -354,11 +337,9 @@ def py_random_state(random_state_argument):
        def random_float(random_state=None):
            return random_state.rand()
 
-
        @py_random_state(0)
        def random_float(rng=None):
            return rng.rand()
-
 
        @py_random_state(1)
        def random_array(dims, seed=12345):
@@ -429,7 +410,6 @@ class argmap:
                 if amount.currency != currency:
                     amount = amount.to_currency(currency)
                 return amount
-
             return argmap(_convert, which_arg)
 
     Despite this common idiom for argmap, most of the following examples
@@ -489,11 +469,9 @@ class argmap:
         def double(a):
             return 2 * a
 
-
         @argmap(double, 3)
         def overflow(a, *args):
             return a, args
-
 
         print(overflow(1, 2, 3, 4, 5, 6))  # output is 1, (2, 3, 8, 5, 6)
 
@@ -544,7 +522,6 @@ class argmap:
                     # assume `path` handles the closing
                     fclose = lambda: None
                 return path, fclose
-
             return argmap(_opener, which_arg, try_finally=True)
 
     which can then be used as::
@@ -567,7 +544,6 @@ class argmap:
         def file_to_lines_wrapped(file):
             for line in file.readlines():
                 yield line
-
 
         def file_to_lines_wrapper(file):
             try:
@@ -706,8 +682,10 @@ class argmap:
     not_implemented_for
     open_file
     nodes_or_number
+    random_state
     py_random_state
-    networkx.algorithms.community.quality.require_partition
+    networkx.community.quality.require_partition
+    require_partition
 
     """
 
@@ -1112,13 +1090,7 @@ class argmap:
             if prev == param.POSITIONAL_ONLY != kind:
                 # the last token was position-only, but this one isn't
                 def_sig.append("/")
-            if (
-                param.VAR_POSITIONAL
-                != prev
-                != param.KEYWORD_ONLY
-                == kind
-                != param.VAR_POSITIONAL
-            ):
+            if prev != param.KEYWORD_ONLY == kind != param.VAR_POSITIONAL:
                 # param is the first keyword-only arg and isn't starred
                 def_sig.append("*")
 
