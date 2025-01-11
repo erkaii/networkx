@@ -1,17 +1,7 @@
 NetworkX 3.2
 ============
 
-Release date: 18 October 2023
-
-Supports Python 3.9, 3.10, 3.11, and 3.12.
-
-NetworkX is a Python package for the creation, manipulation, and study of the
-structure, dynamics, and functions of complex networks.
-
-For more information, please visit our `website <https://networkx.org/>`_
-and our :ref:`gallery of examples <examples_gallery>`.
-Please send comments and questions to the `networkx-discuss mailing list
-<http://groups.google.com/group/networkx-discuss>`_.
+We're happy to announce the release of networkx 3.2!
 
 Highlights
 ----------

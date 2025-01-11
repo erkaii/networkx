@@ -5,7 +5,6 @@ House With Colors
 
 Draw a graph with matplotlib.
 """
-
 import matplotlib.pyplot as plt
 import networkx as nx
 

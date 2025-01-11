@@ -1,5 +1,4 @@
 .. _isomorphism:
-.. _networkx.algorithms.isomorphism.isomorph:
 
 ***********
 Isomorphism

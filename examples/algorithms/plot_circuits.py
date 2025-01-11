@@ -12,7 +12,6 @@ more than once. Thus creating a Boolean formula from a Boolean circuit
 in this way may be infeasible if the circuit is large.
 
 """
-
 import matplotlib.pyplot as plt
 import networkx as nx
 

@@ -17,7 +17,6 @@ References
 ----------
 https://www.quantamagazine.org/mathematicians-prove-ringels-graph-theory-conjecture-20200219/
 """
-
 import matplotlib.pyplot as plt
 import networkx as nx
 

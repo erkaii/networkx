@@ -6,7 +6,6 @@ Labels And Colors
 Use `nodelist` and `edgelist` to apply custom coloring and labels to various
 components of a graph.
 """
-
 import matplotlib.pyplot as plt
 import networkx as nx
 

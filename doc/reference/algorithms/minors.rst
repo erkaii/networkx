@@ -1,5 +1,3 @@
-.. _networkx.algorithms.minors.contraction:
-
 ******
 Minors
 ******
