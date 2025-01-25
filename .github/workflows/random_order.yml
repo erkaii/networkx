@@ -20,12 +20,23 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install packages
+      - name: Query GitHub commit date
+        run: |
+          COMMIT_HASH="7cd7d521"
+          API_URL="https://api.github.com/repos/networkx/networkx/commits/$COMMIT_HASH"
+          DATE=$(curl -s $API_URL | jq -r '.commit.committer.date')
+          echo "commit_date=${DATE}" >> $GITHUB_ENV
+
+      - name: Install uv package manager
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements/default.txt -r requirements/test.txt
-          python -m pip install .
-          python -m pip list
+          pip install uv
+
+      - name: Install packages with uv
+        run: |
+          uv pip install -r requirements/default.txt -r requirements/test.txt --exclude-newer ${{ env.commit_date }} --system
+          uv pip install . --exclude-newer ${{ env.commit_date }} --system
+          uv pip list
 
       - name: Install pytest-ranking related
         run: pip install pytest-ranking pytest-json-report
@@ -52,7 +63,7 @@ jobs:
         with:
           path: ${{ github.workspace }}/.pytest_cache/v/pytest_ranking_data
           key: pytest-ranking-cache-${{ github.workflow }}-${{ runner.os }}-${{ matrix.python }}-${{ github.run_id }}
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
             name: pytest-ranking upload test report json
